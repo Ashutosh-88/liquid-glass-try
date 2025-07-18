@@ -269,6 +269,7 @@ body {
 
 .player__controls__ff {
   display: flex;
+  padding-right: 1rem;
 }
 
 /* ========== GLASS LAYERS ========== */

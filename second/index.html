@@ -25,10 +25,10 @@
                   alt=""
                 />
                 <div class="playlist__item__info">
-                  <h4 class="playlist__item__title">All Of Me</h4>
-                  <span class="playlist__item__artist">Nao</span>
+                  <h4 class="playlist__item__title">Tum Hi Ho</h4>
+                  <span class="playlist__item__artist">Arijit Singh</span>
                 </div>
-                <span class="playlist__item__duration">3:24</span>
+                <span class="playlist__item__duration">4:22</span>
               </div>
 
               <div class="playlist__item">
@@ -38,10 +38,10 @@
                   alt=""
                 />
                 <div class="playlist__item__info">
-                  <h4 class="playlist__item__title">Breathe Me</h4>
-                  <span class="playlist__item__artist">Sia</span>
+                  <h4 class="playlist__item__title">Channa Mereya</h4>
+                  <span class="playlist__item__artist">Arijit Singh</span>
                 </div>
-                <span class="playlist__item__duration">4:31</span>
+                <span class="playlist__item__duration">4:49</span>
               </div>
 
               <div class="playlist__item">
@@ -51,10 +51,10 @@
                   alt=""
                 />
                 <div class="playlist__item__info">
-                  <h4 class="playlist__item__title">Golden</h4>
-                  <span class="playlist__item__artist">Harry Styles</span>
+                  <h4 class="playlist__item__title">Raabta</h4>
+                  <span class="playlist__item__artist">Arijit Singh</span>
                 </div>
-                <span class="playlist__item__duration">3:28</span>
+                <span class="playlist__item__duration">4:05</span>
               </div>
 
               <div class="playlist__item">
@@ -64,10 +64,10 @@
                   alt=""
                 />
                 <div class="playlist__item__info">
-                  <h4 class="playlist__item__title">Levitating</h4>
-                  <span class="playlist__item__artist">Dua Lipa</span>
+                  <h4 class="playlist__item__title">Kesariya</h4>
+                  <span class="playlist__item__artist">Arijit Singh</span>
                 </div>
-                <span class="playlist__item__duration">3:23</span>
+                <span class="playlist__item__duration">4:28</span>
               </div>
             </div>
           </div>
@@ -84,8 +84,8 @@
                 alt=""
               />
               <div class="player__legend">
-                <h3 class="player__legend__title">All Of Me</h3>
-                <span class="player__legend__sub-title">Nao</span>
+                <h3 class="player__legend__title">Tum Hi Ho</h3>
+                <span class="player__legend__sub-title">Arijit Singh</span>
               </div>
             </div>
 
@@ -235,6 +235,19 @@
         }
       }
 
+      // Function to update the player with selected song
+      function updatePlayer(songTitle, artist, imgSrc) {
+        const playerTitle = document.querySelector(".player__legend__title");
+        const playerArtist = document.querySelector(
+          ".player__legend__sub-title"
+        );
+        const playerImg = document.querySelector(".player__img");
+
+        if (playerTitle) playerTitle.textContent = songTitle;
+        if (playerArtist) playerArtist.textContent = artist;
+        if (playerImg) playerImg.src = imgSrc.replace("w=80", "w=400"); // Higher quality for player
+      }
+
       // Initialize draggable functionality when DOM is loaded
       document.addEventListener("DOMContentLoaded", function () {
         const glassContainer = document.querySelector(
@@ -243,6 +256,35 @@
         if (glassContainer) {
           makeDraggable(glassContainer);
         }
+
+        // Add click event listeners to playlist items
+        const playlistItems = document.querySelectorAll(".playlist__item");
+        playlistItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            // Remove active class from all items
+            playlistItems.forEach((item) =>
+              item.classList.remove("playlist__item--active")
+            );
+
+            // Add active class to clicked item
+            this.classList.add("playlist__item--active");
+
+            // Get song details
+            const songTitle = this.querySelector(
+              ".playlist__item__title"
+            ).textContent;
+            const artist = this.querySelector(
+              ".playlist__item__artist"
+            ).textContent;
+            const imgSrc = this.querySelector(".playlist__item__img").src;
+
+            // Update player
+            updatePlayer(songTitle, artist, imgSrc);
+
+            // Prevent event bubbling to avoid dragging
+            e.stopPropagation();
+          });
+        });
       });
     </script>
   </body>
