@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liquid Glass Display</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- <svg style="display: none">
+      <filter
+        id="glass-distortion"
+        x="0%"
+        y="0%"
+        width="100%"
+        height="100%"
+        filterUnits="objectBoundingBox"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.005"
+          numOctaves="1"
+          seed="17"
+          result="turbulence"
+        />
+
+        <feComponentTransfer in="turbulence" result="mapped">
+          <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+          <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+          <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+        </feComponentTransfer>
+        <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
+        <feSpecularLighting
+          in="softMap"
+          surfaceScale="5"
+          specularConstant="1"
+          specularExponent="100"
+          lighting-color="white"
+          result="specLight"
+        >
+          <fePointLight x="-200" y="-200" z="300" />
+        </feSpecularLighting>
+        <feComposite
+          in="specLight"
+          operator="arithmetic"
+          k1="0"
+          k2="1"
+          k3="1"
+          k4="0"
+          result="litImage"
+        />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="softMap"
+          scale="200"
+          xChannelSelector="R"
+          yChannelSelector="G"
+        />
+      </filter>
+    </svg> -->
+
+    <div class="bg">
+      <img
+        src="./public/closeup-scarlet-macaw-from-side-view-scarlet-macaw-closeup-head.jpg"
+        alt=""
+      />
+      <img
+        src="./public/green-iguana-closeup-wood-animal-closeup-reptile-closeup.jpg"
+        alt=""
+      />
+      <img
+        src="https://i.ibb.co/bMvc7Zr6/Vibrant-Summer-Meadow-Watercolor.png"
+        alt=""
+      />
+    </div>
+
+    <div class="card">
+      <div class="content"></div>
+      <div class="glass" id="draggableCard">
+        <div class="card-header">
+          <h1 class="logo">thabho<span class="dot">.</span></h1>
+        </div>
+
+        <div class="card-content">
+          <h2 class="card-title">Liquid Glass Design</h2>
+          <p class="card-description">
+            A beautiful draggable liquid glass morphism card with backdrop blur
+            effects. Experience the fluid, liquid-like glass effect as you drag
+            me around the screen!
+          </p>
+          <button class="card-button" onclick="handleButtonClick()">
+            Explore More
+          </button>
+        </div>
+
+        <div class="card-footer">
+          <p
+            style="
+              color: rgba(255, 255, 255, 0.6);
+              font-size: 0.9rem;
+              margin: 0;
+            "
+          >
+            Drag anywhere to move
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Draggable functionality
+      let isDragging = false;
+      let currentX;
+      let currentY;
+      let initialX;
+      let initialY;
+      let xOffset = 0;
+      let yOffset = 0;
+
+      const draggableCard = document.getElementById("draggableCard");
+
+      function dragStart(e) {
+        if (e.type === "touchstart") {
+          initialX = e.touches[0].clientX - xOffset;
+          initialY = e.touches[0].clientY - yOffset;
+        } else {
+          initialX = e.clientX - xOffset;
+          initialY = e.clientY - yOffset;
+        }
+
+        if (e.target === draggableCard || draggableCard.contains(e.target)) {
+          isDragging = true;
+          draggableCard.style.transition = "none";
+        }
+      }
+
+      function dragEnd(e) {
+        initialX = currentX;
+        initialY = currentY;
+        isDragging = false;
+        draggableCard.style.transition = "all 0.3s ease";
+      }
+
+      function drag(e) {
+        if (isDragging) {
+          e.preventDefault();
+
+          if (e.type === "touchmove") {
+            currentX = e.touches[0].clientX - initialX;
+            currentY = e.touches[0].clientY - initialY;
+          } else {
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+          }
+
+          xOffset = currentX;
+          yOffset = currentY;
+
+          setTranslate(currentX, currentY, draggableCard);
+        }
+      }
+
+      function setTranslate(xPos, yPos, el) {
+        el.style.transform = `translate(calc(-50% + ${xPos}px), calc(-50% + ${yPos}px))`;
+      }
+
+      // Button click handler
+      function handleButtonClick() {
+        alert("Glass card button clicked! ✨");
+      }
+
+      // Event listeners
+      document.addEventListener("mousedown", dragStart, false);
+      document.addEventListener("mouseup", dragEnd, false);
+      document.addEventListener("mousemove", drag, false);
+
+      // Touch events for mobile
+      document.addEventListener("touchstart", dragStart, false);
+      document.addEventListener("touchend", dragEnd, false);
+      document.addEventListener("touchmove", drag, false);
+    </script>
+  </body>
+</html>
